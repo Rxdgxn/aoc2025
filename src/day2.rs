@@ -32,7 +32,6 @@ pub fn part1(input_file: &str) {
 }
 
 fn is_invalid2(x: u64) -> bool {
-    // NOTE: super slow
     let s = x.to_string();
     let len = s.len();
 
@@ -43,13 +42,17 @@ fn is_invalid2(x: u64) -> bool {
 
         let parts = len / i;
 
-        let mut set: HashSet<&str> = HashSet::new();
+        let f = &s[0 .. i];
+        let mut invalid = true;
 
-        for j in 0 .. parts {
-            set.insert(&s[j * i .. (j + 1) * i]);
+        for j in 1 .. parts {
+            if &s[j * i .. (j + 1) * i] != f {
+                invalid = false;
+                break;
+            }
         }
 
-        if set.len() == 1 {
+        if invalid {
             return true;
         }
     }
